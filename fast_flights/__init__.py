@@ -1,13 +1,15 @@
 from . import integrations
-
+from .exceptions import FlightsNotFound
+from .fetcher import fetch_flights_html, get_flights
 from .querying import (
     FlightQuery,
-    Query,
     Passengers,
+    Query,
     create_query,
+)
+from .querying import (
     create_query as create_filter,  # alias
 )
-from .fetcher import get_flights, fetch_flights_html
 
 __all__ = [
     "FlightQuery",
@@ -18,4 +20,5 @@ __all__ = [
     "get_flights",
     "fetch_flights_html",
     "integrations",
+    "FlightsNotFound",
 ]

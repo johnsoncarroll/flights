@@ -2,6 +2,7 @@ import json
 
 from selectolax.lexbor import LexborHTMLParser
 
+from .exceptions import FlightsNotFound
 from .model import (
     Airline,
     Airport,
@@ -31,7 +32,9 @@ def parse(html: str) -> MetaList:
 # Data discovery by @kftang, huge shout out!
 def parse_js(js: str):
     data = js.split("data:", 1)[1].rsplit(",", 1)[0]
-    print(data)
+
+    if data.endswith("errorHasStatus: true"):
+        raise FlightsNotFound("no flights found; received error")
 
     payload = json.loads(data)
 
