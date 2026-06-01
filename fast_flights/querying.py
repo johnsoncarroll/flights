@@ -82,7 +82,7 @@ class FlightQuery:
             airlines=self.airlines,
         )
 
-    def _setmaxstops(self, m: int | None = None) -> "FlightQuery":
+    def with_max_stops(self, m: int | None = None) -> "FlightQuery":
         if m is not None:
             self.max_stops = m
 
@@ -150,7 +150,7 @@ def create_query(
         max_stops (optional): Set the maximum stops for every flight query, if present.
     """
     return Query(
-        flight_data=[flight._setmaxstops(max_stops).pb() for flight in flights],
+        flight_data=[flight.with_max_stops(max_stops).pb() for flight in flights],
         seat=SEAT_LOOKUP[seat],
         trip=TRIP_LOOKUP[trip],
         passengers=passengers.pb(),
