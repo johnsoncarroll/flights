@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from datetime import datetime as Datetime
 from typing import Literal
 
+from typing_extensions import override
+
 from .pb.flights_pb2 import Airport, FlightData, Info, Passenger, Seat, Trip
 from .types import Currency, Language, SeatType, TripType
 
@@ -53,6 +55,7 @@ class Query:
         """Create `params` in dictionary form."""
         return {"tfs": self.to_str(), "hl": self.language, "curr": self.currency}
 
+    @override
     def __repr__(self) -> str:
         return "Query(...)"
 
@@ -86,26 +89,21 @@ class FlightQuery:
         return self
 
 
+@dataclass
 class Passengers:
-    def __init__(
-        self,
-        *,
-        adults: int = 0,
-        children: int = 0,
-        infants_in_seat: int = 0,
-        infants_on_lap: int = 0,
-    ):
-        assert sum((adults, children, infants_in_seat, infants_on_lap)) <= 9, (
-            "Too many passengers (> 9)"
-        )
-        assert infants_on_lap <= adults, (
+    adults: int = 0
+    children: int = 0
+    infants_in_seat: int = 0
+    infants_on_lap: int = 0
+
+    def __post_init__(self):
+        assert (
+            sum((self.adults, self.children, self.infants_in_seat, self.infants_on_lap))
+            <= 9
+        ), "Too many passengers (> 9)"
+        assert self.infants_on_lap <= self.adults, (
             "Must have at least one adult per infant on lap"
         )
-
-        self.adults = adults
-        self.children = children
-        self.infants_in_seat = infants_in_seat
-        self.infants_on_lap = infants_on_lap
 
     def pb(self) -> list[Passenger]:
         return [
