@@ -1,7 +1,7 @@
 from base64 import b64encode
 from dataclasses import dataclass
 from datetime import datetime as Datetime
-from typing import Literal, Optional, Union
+from typing import Literal
 
 from .pb.flights_pb2 import Airport, FlightData, Info, Passenger, Seat, Trip
 from .types import Currency, Language, SeatType, TripType
