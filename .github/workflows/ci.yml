@@ -1,9 +1,11 @@
-name: ci 
+name: docs
 on:
   push:
     branches:
-      - master 
-      - main
+      - dev
+    paths:
+      - 'docs/*'
+      - 'mkdocs.yml'
 permissions:
   contents: write
 jobs:
