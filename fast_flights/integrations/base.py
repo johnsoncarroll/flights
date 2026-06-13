@@ -51,4 +51,8 @@ def get_env(k: str, /) -> str:
     try:
         return os.environ[k]
     except KeyError:
-        raise OSError(f"could not find environment variable: {k!r}")
+        raise OSError(
+            f"could not find environment variable: {k!r}\n"
+            + "if you're using .env files, install python-dotenv first:\n"
+            + "  pip install python-dotenv"
+        )
