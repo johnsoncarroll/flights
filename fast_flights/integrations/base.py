@@ -1,3 +1,5 @@
+# pyright: reportUnnecessaryTypeIgnoreComment=false
+
 import os
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
@@ -7,7 +9,7 @@ from ..querying import Query
 try:
     import dotenv  # pyright: ignore [reportMissingImports]; pip install python-dotenv
 
-    dotenv.load_dotenv()  # pyright: ignore [reportUnknownMemberType]
+    dotenv.load_dotenv()  # pyright: ignore [reportUnknownMemberType, reportUnusedCallResult]
 
 except ModuleNotFoundError:
     pass
