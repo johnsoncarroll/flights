@@ -11,7 +11,10 @@ from .types import Currency, Language, SeatType, TripType
 
 @dataclass
 class Query:
-    """A query containing `?tfs` data."""
+    """A query containing `?tfs` data.
+
+    Essentially, it's a container for user-specified queries.
+    """
 
     flight_data: list[FlightData]
     seat: Seat

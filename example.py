@@ -1,6 +1,7 @@
 from pprint import pprint
 
 from fast_flights import FlightQuery, Passengers, create_query, get_flights
+from fast_flights.integrations import BrightData
 
 query = create_query(
     flights=[
@@ -15,5 +16,5 @@ query = create_query(
     passengers=Passengers(adults=1),
     language="zh-TW",
 )
-res = get_flights(query)
+res = get_flights(query, integration=BrightData())
 pprint(res)
