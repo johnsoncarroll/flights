@@ -6,13 +6,21 @@ from typing_extensions import Final, override
 
 from ..fetcher import URL
 from ..querying import Query
-from .base import Integration, get_env
+from .base import FetchIntegration, get_env
 
 DEFAULT_API_URL = "https://api.brightdata.com/request"
 DEFAULT_DATA_SERP_ZONE = "serp_api1"
 
 
-class BrightData(Integration):
+class BrightData(FetchIntegration):
+    """The [BrightData](https://brightdata.com) integration.
+
+    Args:
+        api_key (optional): The API key (or env variable `BRIGHT_DATA_API_KEY`).
+        api_url (optional): The API URL (or env variable `BRIGHT_DATA_API_URL`).
+        zone (optional): The data serp zone. Defaults to `serp_api1`.
+    """
+
     __slots__: Final = ("api_url", "zone")
 
     api_url: str
