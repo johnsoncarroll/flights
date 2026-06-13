@@ -1,12 +1,12 @@
 import os
-from abc import ABC
+from abc import ABC, abstractmethod
 
 from ..querying import Query
 
 try:
-    import dotenv  # pip install python-dotenv
+    import dotenv  # pyright: ignore [reportMissingImports]; pip install python-dotenv
 
-    dotenv.load_dotenv()
+    dotenv.load_dotenv()  # pyright: ignore [reportUnknownMemberType]
 
 except ModuleNotFoundError:
     pass
@@ -15,6 +15,7 @@ except ModuleNotFoundError:
 class Integration(ABC):
     """Represents an integration."""
 
+    @abstractmethod
     def fetch_html(self, q: Query | str, /) -> str:
         """Fetch the flights page HTML from a query.
 
