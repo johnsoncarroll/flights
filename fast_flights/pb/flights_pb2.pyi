@@ -15,23 +15,23 @@ class __RepeatedScalarContainer(Generic[T]):
     def clear(self) -> None: ...
 
 class __Composite:
-    def __init__(self, **kwargs): ...
+    def __init__(self, **kwargs) -> None: ...
     def SerializeToString(self) -> bytes: ...
 
-class Trip(Enum):
+class Trip(int, Enum):
     # UNKNOWN_TRIP = 0
     ROUND_TRIP = 1
     ONE_WAY = 2
     MULTI_CITY = 3
 
-class Seat(Enum):
+class Seat(int, Enum):
     # UNKNOWN_SEAT = 0
     ECONOMY = 1
     PREMIUM_ECONOMY = 2
     BUSINESS = 3
     FIRST = 4
 
-class Passenger(Enum):
+class Passenger(int, Enum):
     # UNKNOWN_PASSENGER = 0
     ADULT = 1
     CHILD = 2
