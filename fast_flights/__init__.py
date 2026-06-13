@@ -1,3 +1,8 @@
+"""fast-flights is a simple Google Flights scraper.
+
+https://github.com/AWeirdDev/fast-flights
+"""
+
 from . import integrations
 from .exceptions import FlightsNotFound
 from .fetcher import fetch_flights_html, get_flights

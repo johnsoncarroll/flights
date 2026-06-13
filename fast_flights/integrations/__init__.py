@@ -1,6 +1,9 @@
 """Plug-in data integrations."""
 
 from .base import DataSourceIntegration, FetchIntegration
-from .bright_data import BrightData
 
-__all__ = ["DataSourceIntegration", "FetchIntegration", "BrightData"]
+# external integrations
+from .bright_data import BrightData
+from .searchapi import SearchApi
+
+__all__ = ["DataSourceIntegration", "FetchIntegration", "BrightData", "SearchApi"]

@@ -18,7 +18,7 @@ from typing import Literal
 import primp
 from typing_extensions import Final, override
 
-from .. import Query
+from ..querying import Query
 from .base import DataSourceIntegration, get_env
 
 SEAT_MAP: dict[str, str] = {
