@@ -1,3 +1,5 @@
+# pyright: reportAny=false, reportUnknownMemberType=false, reportUnknownArgumentType=false
+
 import json
 
 from selectolax.lexbor import LexborHTMLParser
@@ -15,13 +17,13 @@ from .model import (
 )
 
 
-class MetaList(list[Flights]):
+class ResultList(list[Flights]):
     """Searched flights list, with metadata attached."""
 
     metadata: JsMetadata
 
 
-def parse(html: str) -> MetaList:
+def parse(html: str) -> ResultList:
     parser = LexborHTMLParser(html)
 
     # find js
@@ -54,7 +56,7 @@ def parse_js(js: str):
 
     meta = JsMetadata(alliances=alliances, airlines=airlines)
 
-    flights = MetaList()
+    flights = ResultList()
     if payload[3][0] is None:
         return flights
 

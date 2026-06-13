@@ -3,7 +3,7 @@ from typing import TypeVar, overload
 from primp import Client
 
 from .integrations.base import DataSourceIntegration, FetchIntegration
-from .parser import MetaList, parse
+from .parser import ResultList, parse
 from .querying import Query
 
 URL = "https://www.google.com/travel/flights"
@@ -15,13 +15,13 @@ T = TypeVar("T")
 @overload
 def get_flights(
     q: Query | str, /, *, proxy: str | None = None, integration: None = None
-) -> MetaList: ...
+) -> ResultList: ...
 
 
 @overload
 def get_flights(
     q: Query | str, /, *, proxy: str | None = None, integration: FetchIntegration
-) -> MetaList: ...
+) -> ResultList: ...
 
 
 @overload
@@ -40,7 +40,7 @@ def get_flights(
     *,
     proxy: str | None = None,
     integration: FetchIntegration | DataSourceIntegration[T] | None = None,
-) -> T | MetaList:
+) -> T | ResultList:
     """Get flights.
 
     Args:
