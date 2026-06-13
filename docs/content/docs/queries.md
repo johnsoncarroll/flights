@@ -1,4 +1,7 @@
-# :material-filter: Queries
+---
+title: "Queries"
+---
+
 Queries are used to generate the `?tfs` query parameter.
 
 ```python
