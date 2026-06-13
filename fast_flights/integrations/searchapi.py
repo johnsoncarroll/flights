@@ -18,6 +18,7 @@ from typing import Literal
 import primp
 from typing_extensions import Final, override
 
+from ..pb.flights_pb2 import Passenger
 from ..querying import Query
 from .base import DataSourceIntegration, get_env
 
@@ -296,14 +297,22 @@ def params_from_query(q: Query, key: str) -> dict:
     params: dict = {
         "engine": "google_flights",
         "api_key": key,
-        "departure_id": outbound.from_airport,
-        "arrival_id": outbound.to_airport,
+        "departure_id": outbound.from_airport.airport,
+        "arrival_id": outbound.to_airport.airport,
         "outbound_date": outbound.date,
         "travel_class": SEAT_MAP.get(seat, "economy"),
-        "adults": getattr(passengers, "adults", 1),
-        "children": getattr(passengers, "children", 0),
-        "infants_in_seat": getattr(passengers, "infants_in_seat", 0),
-        "infants_on_lap": getattr(passengers, "infants_on_lap", 0),
+        "adults": str(
+            sum(1 for passenger in passengers if passenger == Passenger.ADULT)
+        ),
+        "children": str(
+            sum(1 for passenger in passengers if passenger == Passenger.CHILD)
+        ),
+        "infants_in_seat": str(
+            sum(1 for passenger in passengers if passenger == Passenger.INFANT_IN_SEAT)
+        ),
+        "infants_on_lap": str(
+            sum(1 for passenger in passengers if passenger == Passenger.INFANT_ON_LAP)
+        ),
         "currency": curr,
         "hl": lang,
     }
