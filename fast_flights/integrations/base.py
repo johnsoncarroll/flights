@@ -1,5 +1,6 @@
 import os
 from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
 
 from ..querying import Query
 
@@ -12,12 +13,26 @@ except ModuleNotFoundError:
     pass
 
 
-class Integration(ABC):
-    """Represents an integration."""
+class FetchIntegration(ABC):
+    """Represents an integration for `fetch()` operations."""
 
     @abstractmethod
     def fetch_html(self, q: Query | str, /) -> str:
         """Fetch the flights page HTML from a query.
+
+        Args:
+            q: The query.
+        """
+        raise NotImplementedError
+
+
+T = TypeVar("T")
+
+
+class DataSourceIntegration(ABC, Generic[T]):
+    @abstractmethod
+    def fetch(self, q: Query | str) -> T:
+        """Fetch data using this data source provider.
 
         Args:
             q: The query.
