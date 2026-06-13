@@ -13,9 +13,9 @@ pip install fast-flights
 It's pretty simple and beginner-friendly.
 
 ```python
-from fast_flights import FlightQuery, Passengers, create_query, get_flights
+from fast_flights import FlightQuery, Passengers, ResultList, create_query, get_flights
 
-result: Result = create_query(
+result: ResultList = create_query(
     flights=[
         FlightQuery(date="2025-01-01", from_airport="TPE", to_airport="MYJ")# (1)!
     ],
