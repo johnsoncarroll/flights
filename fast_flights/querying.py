@@ -1,3 +1,4 @@
+import typing
 from base64 import b64encode
 from dataclasses import dataclass
 from datetime import datetime as Datetime
@@ -58,6 +59,20 @@ class Query:
         """Create `params` in dictionary form."""
         return {"tfs": self.to_str(), "hl": self.language, "curr": self.currency}
 
+    def get_trip_type(self) -> TripType:
+        data = REVERSE_TRIP_LOOKUP[self.trip]
+        if data is None:
+            raise TypeError("malformed trip type: 0")
+
+        return typing.cast(TripType, data)
+
+    def get_seat_type(self) -> SeatType:
+        data = REVERSE_SEAT_LOOKUP[self.seat]
+        if data is None:
+            raise TypeError("malformed seat type: 0")
+
+        return typing.cast(SeatType, data)
+
     @override
     def __repr__(self) -> str:
         return "Query(...)"
@@ -117,18 +132,25 @@ class Passengers:
         ]
 
 
-DEFAULT_PASSENGERS = Passengers(adults=1)
 SEAT_LOOKUP = {
     "economy": Seat.ECONOMY,
     "premium-economy": Seat.PREMIUM_ECONOMY,
     "business": Seat.BUSINESS,
     "first": Seat.FIRST,
 }
+REVERSE_SEAT_LOOKUP = [None, "economy", "premium-economy", "business", "first"]
+
 TRIP_LOOKUP = {
     "round-trip": Trip.ROUND_TRIP,
     "one-way": Trip.ONE_WAY,
     "multi-city": Trip.MULTI_CITY,
 }
+REVERSE_TRIP_LOOKUP = [
+    None,
+    "round-trip",
+    "one-way",
+    "multi-city",
+]
 
 
 def create_query(
@@ -136,7 +158,7 @@ def create_query(
     flights: list[FlightQuery],
     seat: SeatType = "economy",
     trip: TripType = "one-way",
-    passengers: Passengers = DEFAULT_PASSENGERS,
+    passengers: Passengers | None = None,
     language: str | Literal[""] | Language = "",
     currency: str | Literal[""] | Currency = "",
     max_stops: int | None = None,
@@ -156,7 +178,7 @@ def create_query(
         flight_data=[flight.with_max_stops(max_stops).pb() for flight in flights],
         seat=SEAT_LOOKUP[seat],
         trip=TRIP_LOOKUP[trip],
-        passengers=passengers.pb(),
+        passengers=(passengers or Passengers(adults=1)).pb(),
         language=language,
         currency=currency,
     )
