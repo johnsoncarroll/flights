@@ -9,18 +9,28 @@
 
 <div align="center">
 
-# ✈️ fast-flights (v3.0rc1)
+# ✈️ fast-flights (v3.0)
 
 The fast and strongly-typed Google Flights scraper (API) implemented in Python.
 Based on Base64-encoded Protobuf string.
 
-[**Documentation (v2)**](https://aweirddev.github.io/flights) • [Issues](https://github.com/AWeirdDev/flights/issues) • [PyPi (v3.0rc0)](https://pypi.org/project/fast-flights/3.0rc0/)
+[**Documentation (v2)**](https://aweirddev.github.io/flights) • [Issues](https://github.com/AWeirdDev/flights/issues) • [PyPi (v3.0)](https://pypi.org/project/fast-flights/3.0/)
 
 ```haskell
 $ pip install fast-flights
 ```
 
 </div>
+
+<details>
+    <summary><b>What's New</b></summary>
+
+- `v2.0` – New (much more succinct) API, fallback support for Playwright serverless functions, and [documentation](https://aweirddev.github.io/flights)!
+- `v2.2` – Now supports **local playwright** for sending requests.
+- `v3.0rc0` – Uses JavaScript data instead.
+- `v3.0` – Polished new API! I suppose.
+
+</details>
 
 ## At a glance
 ```python
@@ -50,26 +60,48 @@ res = get_flights(query)
 ## Integrations
 If you'd like, you can use integrations.
 
-Bright data:
+### Bright Data
+Use the [BrightData](https://brightdata.com) integration to protect your IP.
 
 ```python
-from fast_flights import get_flights
 from fast_flights.integrations import BrightData
 
-get_flights(..., integration=BrightData())
+result = get_flights(
+    ..., 
+    integration=BrightData(zone="...")
+)
+
+# ... same as normal queries
 ```
 
-## What's new
-- `v2.0` – New (much more succinct) API, fallback support for Playwright serverless functions, and [documentation](https://aweirddev.github.io/flights)!
-- `v2.2` - Now supports **local playwright** for sending requests.
-- `v3.0rc0` - Uses Javascript data instead.
+### SearchApi <kbd>Sponsored</kbd>
+If you want better consistency and richer data, consider using [SearchApi](https://searchapi.io).
+
+```python
+from fast_flights.integrations import SearchApi, SearchApiResult
+
+result: SearchApiResult = get_flights(
+    ...,
+    integration=SearchApi()
+)
+
+# rich data!
+result.flights
+result.cheaper_alternatives
+result.price_insights
+result.booking_options
+...
+```
+
+## Roadmap
+- [x] Use JavaScript data instead of traditional HTML parsing
+- [x] Add support for integrations
+- [ ] Dangerously use Google's `GetShoppingResults` internal API. Get ready to get banned.
 
 ## Contributing
 Contributing is welcomed! A few notes though:
 1. please no ai slop. i am not reading all that.
-2. one change at a time. what your title says is what you've changed.
-3. no new dependencies unless it's related to the core parsing.
-4. really, i cant finish reading all of them, i have other projects and life to do. really sorry
+2. im really busy with life; im not a full-time reddit mod.
 
 ***
 
