@@ -1,47 +1,37 @@
-from typing import overload
+from typing import TypeVar, overload
 
 from primp import Client
 
-from .integrations.base import Integration
+from .integrations.base import DataSourceIntegration, FetchIntegration
 from .parser import MetaList, parse
 from .querying import Query
 
 URL = "https://www.google.com/travel/flights"
 
 
-@overload
-def get_flights(q: str, /, *, proxy: str | None = None) -> MetaList:
-    """Get flights using a str query.
-
-    Examples:
-    - *Flights from TPE to MYJ on 2025-12-22 one way economy class*
-    """
+T = TypeVar("T")
 
 
 @overload
-def get_flights(q: Query, /, *, proxy: str | None = None) -> MetaList:
-    """Get flights using a structured query.
+def get_flights(
+    q: Query | str, /, *, proxy: str | None = None, integration: None = None
+) -> MetaList: ...
 
-    Example:
-    ```python
-    get_flights(
-        query(
-            flights=[
-                FlightQuery(
-                    date="2025-12-22",
-                    from_airport="TPE",
-                    to_airport="MYJ",
-                )
-            ],
-            seat="economy",
-            trip="one-way",
-            passengers=Passengers(adults=1),
-            language="en-US",
-            currency="",
-        )
-    )
-    ```
-    """
+
+@overload
+def get_flights(
+    q: Query | str, /, *, proxy: str | None = None, integration: FetchIntegration
+) -> MetaList: ...
+
+
+@overload
+def get_flights(
+    q: Query | str,
+    /,
+    *,
+    proxy: str | None = None,
+    integration: DataSourceIntegration[T],
+) -> T: ...
 
 
 def get_flights(
@@ -49,15 +39,19 @@ def get_flights(
     /,
     *,
     proxy: str | None = None,
-    integration: Integration | None = None,
-) -> MetaList:
+    integration: FetchIntegration | DataSourceIntegration[T] | None = None,
+) -> T | MetaList:
     """Get flights.
 
     Args:
         q: The query.
-        proxy (str, optional): Proxy.
+        proxy (optional): Proxy, if you're using `fast-flight`'s default fetcher.
+        integration (optional): Plug-in integration.
     """
-    html = fetch_flights_html(q, proxy=proxy, integration=integration)
+    if integration is not None and isinstance(integration, DataSourceIntegration):
+        return integration.fetch(q)
+
+    html = fetch_flights_html(q, proxy=proxy, fetch_integration=integration)
     return parse(html)
 
 
@@ -66,7 +60,7 @@ def fetch_flights_html(
     /,
     *,
     proxy: str | None = None,
-    integration: Integration | None = None,
+    fetch_integration: FetchIntegration | None = None,
 ) -> str:
     """Fetch flights and get the **HTML**.
 
@@ -74,7 +68,7 @@ def fetch_flights_html(
         q: The query.
         proxy (str, optional): Proxy.
     """
-    if integration is None:
+    if fetch_integration is None:
         client = Client(
             impersonate="chrome_145",
             impersonate_os="macos",
@@ -93,4 +87,4 @@ def fetch_flights_html(
         return res.text
 
     else:
-        return integration.fetch_html(q)
+        return fetch_integration.fetch_html(q)
