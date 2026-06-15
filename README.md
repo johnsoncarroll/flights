@@ -1,6 +1,6 @@
 <div align="center">
     <a href="https://www.searchapi.io/google-flights-api?utm_source=github&utm_medium=sponsorship&utm_campaign=google_flights_api&utm_content=AWeirdDev_flights">
-        <img width="2560" height="1000" alt="searchapi-banner" src="https://github.com/user-attachments/assets/05adb599-e875-4ed7-9498-8bc4165ce4d5" />
+        <img width="2560" alt="searchapi-banner" src="https://github.com/user-attachments/assets/05adb599-e875-4ed7-9498-8bc4165ce4d5" />
         <p>Made possible with support from SearchApi</p>
     </a>
 </div>

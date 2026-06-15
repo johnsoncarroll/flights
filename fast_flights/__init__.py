@@ -1,6 +1,7 @@
 """fast-flights is a simple Google Flights scraper.
 
-https://github.com/AWeirdDev/fast-flights
+GitHub: https://github.com/AWeirdDev/fast-flights
+Docs: https://flights.aweird.me/
 """
 
 from . import integrations
