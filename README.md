@@ -75,7 +75,7 @@ result = get_flights(
 ```
 
 ### SearchApi <kbd>Sponsored</kbd>
-If you want better consistency and richer data, consider using [SearchApi](https://searchapi.io).
+If you want better consistency and richer data, consider using [SearchApi](https://www.searchapi.io/google-flights-api?utm_source=github&utm_medium=sponsorship&utm_campaign=google_flights_api&utm_content=AWeirdDev_flights).
 
 ```python
 from fast_flights.integrations import SearchApi, SearchApiResult
